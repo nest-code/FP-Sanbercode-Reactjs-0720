@@ -5,8 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-
 import {Card, CardActionArea,CardMedia,CardContent,CardActions} from '@material-ui/core';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -71,6 +72,22 @@ class Home2 extends Component {
   render(){
     return (
       <>
+
+    <div class="nav-link">
+      <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
+          <Link color="inherit" href="/">
+           Games
+          </Link>
+          <Link
+            color="textPrimary"
+            href=""
+            aria-current="page"
+          >
+           List Game
+          </Link>
+        </Breadcrumbs>
+        </div>
+
       <Container>
       <div className={useStyles.root}>
       <Grid container spacing={3}>
@@ -80,11 +97,6 @@ class Home2 extends Component {
         <Grid item xs={3}>
           <Card className={useStyles.root}>
             <CardActionArea>
-              <CardMedia
-                className={useStyles.media}
-                image="/static/images/cards/contemplative-reptile.jpg"
-                title="Contemplative Reptile"
-              />
 
               <CardMedia
                 style={{height: 0, paddingTop: '56.25%'}}

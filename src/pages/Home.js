@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import {Card, CardActionArea,CardMedia,CardContent,CardActions} from '@material-ui/core';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     height: 140,
   },Container: {
     margin : 20
-  }
+  },
   
 }));
 
@@ -27,7 +30,15 @@ const useStyles = makeStyles((theme) => ({
   const handleShow = (event) =>{
       alert("Get Review")
     }
+    
 
+function minuteToHours(num){
+  var hours = (num / 60);
+  var rhours = Math.floor(hours);
+  var minutes = (hours - rhours) * 60;
+  var rminutes = Math.round(minutes);
+  return ( rhours === 0 ? "" : rhours + " Jam") + (rminutes === 0 ? "" : " " + rminutes + " Menit")
+}
 
 class Home extends Component {
   constructor(props){
@@ -58,7 +69,30 @@ class Home extends Component {
   render(){
     return (
       <>
+
+
+      <div class="nav-link">
+      <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
+          <Link color="inherit" href="/">
+           Movies
+          </Link>
+         
+          <Link
+            color="textPrimary"
+            href="/components/breadcrumbs/"
+            
+            aria-current="page"
+          >
+           List Movie
+          </Link>
+        </Breadcrumbs>
+        </div>
+    
+
+    
       <Container>
+     
+
       <div className={useStyles.root}>
       <Grid container spacing={3}>
       {
@@ -70,7 +104,7 @@ class Home extends Component {
               <CardMedia maxWidth="lg" component="div" style={{ backgroundColor: '#fff'}} />
             
               <CardMedia
-                style={{height: 0, paddingTop: '56.25%'}}
+                style={{height: 0, paddingTop: '96.25%'}}
                 image= {item.image_url}
                 title="lorem ipsum"
               />
@@ -102,7 +136,9 @@ class Home extends Component {
       }
       </Grid>
     </div>
-       </Container>
+ 
+
+      </Container>
       </>
     )
   }

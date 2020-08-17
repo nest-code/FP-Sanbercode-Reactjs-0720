@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const Login = () =>{
   const [, setUser] = useContext(UserContext)
   const [input, setInput] = useState({username: "" , password: ""})
+
   const handleSubmit = (event) =>{
     event.preventDefault()
     if (input.username === "admin" && input.password === "admin"){
@@ -18,6 +19,9 @@ const Login = () =>{
     }
   }
 
+
+
+  
   const handleChange = (event) =>{
     let value = event.target.value
     let name = event.target.name
@@ -34,26 +38,28 @@ const Login = () =>{
     }
   }
 
+
+
   return(
     <>
 
-      <div class="login">
-      <form onSubmit={handleSubmit}>
+ <div class="login">
+<form onSubmit={handleSubmit}>
 
-      <label>Username: </label>
-      <input type="text" name="username" onChange={handleChange} value={input.username}/>
-      <br/>
+<label>Username: </label>
+<input type="text" name="username" onChange={handleChange} value={input.username}/>
+<br/>
 
-      <label>Password: </label>
-      <input type="password" name="password" onChange={handleChange} value={input.password}/>
-      <br/>
-      <button class="btn">Login</button>
-      <br/>
-      <br/>
-      <a href="https://www.w3schools.com">Lupa Akun ?</a> <br/>
-      <Link to="/users">Daftar Sekarang</Link>
+<label>Password: </label>
+<input type="password" name="password" onChange={handleChange} value={input.password}/>
+<br/>
+<button class="btn">Login</button>
+<br/>
+<br/>
+<a href="https://www.w3schools.com">Lupa Akun ?</a> <br/>
+<Link to="/users">Daftar Sekarang</Link>
 
-      </form>
+</form>
 
     </div>
     </>

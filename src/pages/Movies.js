@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import {Card, CardActionArea,CardMedia} from '@material-ui/core';
 import MaterialTable from '@material-ui/core/Table';
 
@@ -152,7 +152,7 @@ const Movies = () => {
 
   const Action = ({itemId}) =>{
     const handleDelete = () => {  
-      let newMovies = movies.filter(el => el.id = itemId)
+      let newMovies = movies.filter(el => el.id != itemId)
       axios.delete(`https://www.backendexample.sanbersy.com/api/movies/${itemId}`)
       .then(res => {
         console.log(res)
@@ -179,8 +179,8 @@ const Movies = () => {
 
     return(
       <>
-      <button  variant="contained" size="small" color="primary"  onClick={handleEdit}>Edit</button>
-      <button  variant="contained" size="small" color="secondary" onClick={handleDelete}>Delete</button>
+      <Button  variant="contained" size="small" color="primary"  onClick={handleEdit}>Edit</Button>
+      <Button  variant="contained" size="small" color="secondary" onClick={handleDelete}>Delete</Button>
       </>
     )
   }

@@ -13,15 +13,16 @@ import {Card, CardActionArea,CardMedia} from '@material-ui/core';
 
 
 const Games = () => {
-    const [games, setGames] =  useState(null)
+  
+  const [games, setGames] =  useState(null)
   const [input, setInput]  =  useState({
     name: "",
     genre: "",
     platform: "",
     release: "",
     image_url:""
-  })
 
+  })
   const [selectedId, setSelectedId]  =  useState(0)
   const [statusForm, setStatusForm]  =  useState("create")
 
@@ -154,7 +155,7 @@ const Games = () => {
 
   const Action = ({itemId}) =>{
     const handleDelete = () => {  
-      let newGames = games.filter(el => el.id = itemId)
+      let newGames = games.filter(el => el.id != itemId)
         axios.delete(`https://www.backendexample.sanbersy.com/api/games/${itemId}`)
       .then(res => {
         console.log(res)
@@ -242,6 +243,7 @@ class ReadMultiplayer extends React.Component {
                           />
                         </CardActionArea>
                       </Card>
+         
                       </TableCell>
                     <TableCell>
                       <Action itemId={item.id} />
@@ -254,7 +256,7 @@ class ReadMultiplayer extends React.Component {
         </Table>
       </TableContainer>
 
-
+      {/* Form */}
       <h1>Games Form</h1>
       <form onSubmit={handleSubmit}>
         <div>
