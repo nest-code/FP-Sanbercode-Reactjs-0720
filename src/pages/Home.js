@@ -32,13 +32,6 @@ const useStyles = makeStyles((theme) => ({
     }
     
 
-function minuteToHours(num){
-  var hours = (num / 60);
-  var rhours = Math.floor(hours);
-  var minutes = (hours - rhours) * 60;
-  var rminutes = Math.round(minutes);
-  return ( rhours === 0 ? "" : rhours + " Jam") + (rminutes === 0 ? "" : " " + rminutes + " Menit")
-}
 
 class Home extends Component {
   constructor(props){
