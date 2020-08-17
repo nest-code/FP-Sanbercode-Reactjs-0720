@@ -2,7 +2,13 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+form{
+  margin: 50px;
+}
 
+h1{
+  text-align: center;
+}
 
 .App {
   text-align: center;

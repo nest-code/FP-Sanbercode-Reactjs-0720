@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
-import "./Movies.css"
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,16 +13,15 @@ import {Card, CardActionArea,CardMedia} from '@material-ui/core';
 
 
 const Games = () => {
-  
-  const [games, setGames] =  useState(null)
+    const [games, setGames] =  useState(null)
   const [input, setInput]  =  useState({
     name: "",
     genre: "",
     platform: "",
     release: "",
     image_url:""
-
   })
+
   const [selectedId, setSelectedId]  =  useState(0)
   const [statusForm, setStatusForm]  =  useState("create")
 
@@ -57,25 +54,35 @@ const Games = () => {
         break
       }
       case "genre":
+      {
+        setInput({...input, genre: event.target.value});
+          break
+      }
+      case "platform":
+      {
+        setInput({...input, platform: event.target.value});
+          break
+      }
+      case "release":
+      {
+        setInput({...input, release: event.target.value});
+          break
+      }
+      case "singlePlayer":
+      {
+        setInput({...input, singlePlayer: event.target.value});
+          break
+      }
+      case "multiplayer":
         {
-          setInput({...input, genre: event.target.value});
+          setInput({...input, multiplayer: event.target.value});
             break
         }
-        case "platform":
-          {
-            setInput({...input, platform: event.target.value});
-              break
-          }
-          case "release":
-            {
-              setInput({...input, release: event.target.value});
-                break
-            }
-            case "image_url":
-              {
-                setInput({...input, image_url: event.target.value});
-                  break
-              }
+      case "image_url":
+      {
+        setInput({...input, image_url: event.target.value});
+          break
+      }
 
         
     default:
@@ -99,9 +106,6 @@ const Games = () => {
           singlePlayer: input.singlePlayer,
           multiplayer: input.multiplayer,
           image_url: input.image_url
-
-
-
         })
         .then(res => {
             setGames([...games, {id: res.data.id, ...input}])
@@ -112,9 +116,9 @@ const Games = () => {
           genre: input.genre,
           platform: input.platform,
           release: input.release,
+          singlePlayer: input.singlePlayer,
+          multiplayer: input.multiplayer,
           image_url: input.image_url
-
-
         })
         .then(res => {
             let singleGame = games.find(el=> el.id === selectedId)
@@ -122,6 +126,8 @@ const Games = () => {
             singleGame.genre = input.genre
             singleGame.platform = input.platform
             singleGame.release = input.release
+            singleGame.singlePlayer = input.singlePlayer
+            singleGame.multiplayer = input.multiplayer
             singleGame.image_url = input.image_url
 
 
@@ -136,6 +142,8 @@ const Games = () => {
         genre: "",
         platform: "",
         release: "",
+        singlePlayer: "",
+        multiplayer: "",
         image_url: ""
 
 
@@ -146,7 +154,7 @@ const Games = () => {
 
   const Action = ({itemId}) =>{
     const handleDelete = () => {  
-      let newGames = games.filter(el => el.id != itemId)
+      let newGames = games.filter(el => el.id = itemId)
         axios.delete(`https://www.backendexample.sanbersy.com/api/games/${itemId}`)
       .then(res => {
         console.log(res)
@@ -234,7 +242,6 @@ class ReadMultiplayer extends React.Component {
                           />
                         </CardActionArea>
                       </Card>
-         
                       </TableCell>
                     <TableCell>
                       <Action itemId={item.id} />
@@ -247,7 +254,7 @@ class ReadMultiplayer extends React.Component {
         </Table>
       </TableContainer>
 
-      {/* Form */}
+
       <h1>Games Form</h1>
       <form onSubmit={handleSubmit}>
         <div>
