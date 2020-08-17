@@ -5,9 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-
 import {Card, CardActionArea,CardMedia,CardContent,CardActions} from '@material-ui/core';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,16 +29,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
 
-
-
-function minuteToHours(num){
-  var hours = (num / 60);
-  var rhours = Math.floor(hours);
-  var minutes = (hours - rhours) * 60;
-  var rminutes = Math.round(minutes);
-  return ( rhours === 0 ? "" : rhours + " Jam") + (rminutes === 0 ? "" : " " + rminutes + " Menit")
-}
-
 class Home extends Component {
   constructor(props){
     super(props)
@@ -54,11 +42,12 @@ class Home extends Component {
     .then(res => {
       let movies = res.data.map(el=>{ return {
         id: el.id, 
-        title: el.title, 
+        title: el.title,
+        description: el.description,
+        year: el.year, 
         rating: el.rating,
         duration: el.duration,
         genre: el.genre,
-        description: el.description,
         image_url: el.image_url
 
       }})
@@ -90,18 +79,12 @@ class Home extends Component {
                   {item.title}
                 </Typography>
                 <Typography variant="body2">
-                 Genre : {item.genre} 
-                </Typography>
-                <Typography variant="body2">
-                  Rating : {item.rating}
+                 Genre : {item.genre} ||  Duration : {item.duration}
                 </Typography>
 
                 <Typography variant="body2">
-
-
+                  Rating : {item.rating} ||    Year : {item.year}
                 </Typography>
-
-                
 
               </CardContent>
             </CardActionArea>
@@ -119,9 +102,7 @@ class Home extends Component {
       }
       </Grid>
     </div>
- 
-
-      </Container>
+       </Container>
       </>
     )
   }

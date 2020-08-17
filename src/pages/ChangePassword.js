@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
+
+
+import Button from '@material-ui/core/Button';
+
 const Users = () => {
   
   const [users, setUsers] =  useState(null)
@@ -9,7 +13,7 @@ const Users = () => {
 
 
   })
-
+  const [selectedId, setSelectedId]  =  useState(0)
   const [statusForm, setStatusForm]  =  useState("create")
 
   useEffect( () => {
@@ -67,7 +71,7 @@ const Users = () => {
       alert("Akun Berhasil Dibuat")
       
       setStatusForm("create")
-
+      setSelectedId(0)
       setInput({
         username: "",
         password: ""
@@ -76,24 +80,53 @@ const Users = () => {
   
 
   }
+
+  const Action = ({itemId}) =>{
+
+    
+    const handleEdit = () =>{
+      let singleUser = users.find(x=> x.id === itemId)
+      setInput({
+        username: singleUser.username,
+        password: singleUser.password,
+      })
+      setSelectedId(itemId)
+      setStatusForm("edit")
+    }
+
+    return(
+      <>
+      <Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button>
+      </>
+    )
+  }
+
+
+
   return(
     <>
 
     
  <div class="login">
-    <form onSubmit={handleSubmit}>
+<form onSubmit={handleSubmit}>
 
-      <label>Username: </label>
-      <input  type="text" name="username"  onChange={handleChange}/>
-      <br/>
+<label>Username: </label>
+<input  type="text" name="username"  onChange={handleChange}/>
+<br/>
 
-      <label>Password: </label>
-      <input type="password" name="password" onChange={handleChange} />
-      <br/>
-      
-      <button class="btn">Login</button>
-      </form>
+<label>Password: </label>
+<input type="password" name="password" onChange={handleChange} />
+<br/>
+
+<button class="btn">Login</button>
+
+
+
+</form>
+
     </div>
+
+
     </>
   )
 }

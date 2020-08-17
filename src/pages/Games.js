@@ -96,8 +96,9 @@ const Games = () => {
           genre: input.genre,
           platform: input.platform,
           release: input.release,
+          singlePlayer: input.singlePlayer,
+          multiplayer: input.multiplayer,
           image_url: input.image_url
-
 
 
 
@@ -146,8 +147,7 @@ const Games = () => {
   const Action = ({itemId}) =>{
     const handleDelete = () => {  
       let newGames = games.filter(el => el.id != itemId)
-  
-      axios.delete(`https://www.backendexample.sanbersy.com/api/games/${itemId}`)
+        axios.delete(`https://www.backendexample.sanbersy.com/api/games/${itemId}`)
       .then(res => {
         console.log(res)
       })
@@ -196,8 +196,7 @@ class ReadMultiplayer extends React.Component {
   return(
     <>
       <h1>Daftar Game</h1> 
-      
-      <TableContainer>
+        <TableContainer>
         <Table>
         <TableHead>
           <TableRow>
@@ -212,8 +211,6 @@ class ReadMultiplayer extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-
-        
 
             {
               games !== null && games.map((item, index)=>{
@@ -234,11 +231,7 @@ class ReadMultiplayer extends React.Component {
                         <CardActionArea>
                           <CardMedia style={{height: 0, paddingTop: '56.25%'}}
                             image= {item.image_url}
-                            title="lorem ipsum"
                           />
-
-                          
-
                         </CardActionArea>
                       </Card>
          
@@ -253,10 +246,6 @@ class ReadMultiplayer extends React.Component {
         </TableBody>
         </Table>
       </TableContainer>
-
-
-
-
 
       {/* Form */}
       <h1>Games Form</h1>
