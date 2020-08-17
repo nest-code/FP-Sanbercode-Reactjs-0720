@@ -155,7 +155,7 @@ const Games = () => {
 
   const Action = ({itemId}) =>{
     const handleDelete = () => {  
-      let newGames = games.filter(el => el.id != itemId)
+      let newGames = games.filter(el => el.id = itemId)
         axios.delete(`https://www.backendexample.sanbersy.com/api/games/${itemId}`)
       .then(res => {
         console.log(res)

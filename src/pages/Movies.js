@@ -152,7 +152,7 @@ const Movies = () => {
 
   const Action = ({itemId}) =>{
     const handleDelete = () => {  
-      let newMovies = movies.filter(el => el.id != itemId)
+      let newMovies = movies.filter(el => el.id = itemId)
       axios.delete(`https://www.backendexample.sanbersy.com/api/movies/${itemId}`)
       .then(res => {
         console.log(res)
