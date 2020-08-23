@@ -1,155 +1,64 @@
-import React, {Component} from "react"
-import axios from "axios"
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import {Card, CardActionArea,CardMedia,CardContent,CardActions} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Container, TextField } from '@material-ui/core';
+import GameItem from './GameItem';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import axios from 'axios';
 
+const Home2 = () => {
+    const [games, setGames] = useState([])
+    const [gamesDummy, setGamesDummy] = useState([])
+    const [search, setSearch] = useState("")
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },media: {
-    height: 140,
-  },Container: {
-    margin : 20
-  },
-}));
-
-
-
-const handleShow = (event) =>{
-  alert("Review")
-}
-
-class ReadSinglePlayer extends React.Component {
-  render() {
-      return <li>Single : {this.props.singlePlayer === 1 ? "YA" : "TIDAK"} </li>
-  }
-}
-
-class ReadMultiplayer extends React.Component {
-  render() {
-      return <li>Multiplayer : {this.props.multiplayer === 1 ? "YA" : "TIDAK"}</li>
-  }
-}
-
-
-class Home2 extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      games: []
+    const sorting = (a, b, key, order) => {
+      
     }
-  }
 
-  componentDidMount(){
-    axios.get(`https://www.backendexample.sanbersy.com/api/games`)
-    .then(res => {
-      let games = res.data.map(el=>{ return {
-        id: el.id, 
-        name: el.name, 
-        genre: el.genre,
-        singlePlayer: el.singlePlayer,
-        multiplayer: el.multiplayer,
-        platform: el.platform,
-        release: el.release,
-        image_url: el.image_url
-      }})
-      this.setState({games})
-    })
-  }
+    useEffect(() => {
+        axios.get(` https://backendexample.sanbersy.com/api/games `)
+            .then(res => {
+                setGames(res.data.sort((a, b) => sorting(a, b, "name", "asc")))
+                setGamesDummy(res.data.sort((a, b) => sorting(a, b, "name", "asc")))
+            })
+    }, [])
 
-  render(){
+    useEffect(() => {
+        if (search.length === 0) {
+            setGamesDummy(games)
+        } else {
+            setGamesDummy(games.filter(el => {
+                if (el.name.toUpperCase().indexOf(search) > -1) {
+                    return el
+                }
+            }))
+        }
+    }, [search])
+
+    const handleChange = (e) => {
+        setSearch(e.target.value.toUpperCase())
+    }
+
     return (
-      <>
-
-    <div class="nav-link">
-      <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
-          <Link color="inherit" href="/">
-           Games
-          </Link>
-          <Link
-            color="textPrimary"
-            href=""
-            aria-current="page"
-          >
-           List Game
-          </Link>
-        </Breadcrumbs>
-        </div>
-
-      <Container>
-      <div className={useStyles.root}>
-      <Grid container spacing={3}>
-      {
-            this.state.games.map((item)=>{
-              return(
-        <Grid item xs={3}>
-          <Card className={useStyles.root}>
-            <CardActionArea>
-
-              <CardMedia
-                style={{height: 0, paddingTop: '56.25%'}}
-                image= {item.image_url}
-                title="lorem ipsum"
-              />
-
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {item.name}
-                </Typography>
-
-                <Typography variant="body2">
-                 Genre {item.genre} || Relase : {item.release}
-                </Typography>
-
-                <Typography variant="body2">
-
-                  <ReadSinglePlayer singlePlayer={item.singlePlayer}/>
-                 <ReadMultiplayer multiplayer={item.multiplayer}/>
-
-                </Typography>
-
-                
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {item.description}
-                </Typography>
-              </CardContent>
-
-            </CardActionArea>
-            <CardActions>
-
-            <Button size="small" color="primary" onClick={handleShow} >
-                Review
-              </Button>
-
-              
-              
-            </CardActions>
-          </Card>
-        </Grid>
-
-)
-})
-}
-      </Grid>
-    </div>
- 
-
-      </Container>
-      </>
+        <>
+            <section>
+                <h1> Games </h1>
+                <div class="nav-link">
+                <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
+                  <Link color="inherit" href="/">Game</Link>
+                  <Link color="textPrimary" href="" aria-current="page" >List Game</Link>
+                </Breadcrumbs>
+              </div>
+                <Container>
+                <TextField type="text" size="small" variant="outlined" value={search} onChange={handleChange} label="Search" style={{ width: "100%", margin:"20px auto 20px"}} />
+                {gamesDummy.map(el => {
+                    return (
+                        <GameItem game={el} />
+                    )
+                })}
+                </Container>
+            </section>
+        </>
     )
-  }
 }
 
 export default Home2

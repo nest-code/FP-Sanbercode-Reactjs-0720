@@ -4,8 +4,6 @@ import Header from "./Header"
 import Section from "./Section"
 import Footer from "./Footer"
 // import Sidebar from "./Sidebar"
-import { LoginContext } from "../context/LoginContext";
-
 import {Box} from '@material-ui/core';
 
 

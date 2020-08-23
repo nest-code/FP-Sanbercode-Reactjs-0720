@@ -7,13 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-
 import {Card, CardActionArea,CardMedia} from '@material-ui/core';
 
-
-
 const Games = () => {
-  
   const [games, setGames] =  useState(null)
   const [input, setInput]  =  useState({
     name: "",
@@ -43,8 +39,6 @@ const Games = () => {
     }
   }, [games])
   
-
-
   const handleChange = (event) =>{
     let typeOfInput = event.target.name
 
@@ -84,7 +78,6 @@ const Games = () => {
         setInput({...input, image_url: event.target.value});
           break
       }
-
         
     default:
       {break;}
@@ -130,8 +123,6 @@ const Games = () => {
             singleGame.singlePlayer = input.singlePlayer
             singleGame.multiplayer = input.multiplayer
             singleGame.image_url = input.image_url
-
-
             setGames([...games])
         })
       }
@@ -146,8 +137,6 @@ const Games = () => {
         singlePlayer: "",
         multiplayer: "",
         image_url: ""
-
-
       })
     }
 
@@ -160,9 +149,7 @@ const Games = () => {
       .then(res => {
         console.log(res)
       })
-            
       setGames([...newGames])
-      
     }
     
     const handleEdit = () =>{
@@ -204,7 +191,7 @@ class ReadMultiplayer extends React.Component {
 
   return(
     <>
-      <h1>Daftar Game</h1> 
+      <h1>Game List Editor</h1> 
         <TableContainer>
         <Table>
         <TableHead>
@@ -214,7 +201,7 @@ class ReadMultiplayer extends React.Component {
             <TableCell>Genre</TableCell>
             <TableCell>Playes</TableCell>
             <TableCell>Platform</TableCell>
-            <TableCell>release</TableCell>
+            <TableCell>Release</TableCell>
             <TableCell>Image</TableCell>
             <TableCell>Action</TableCell>
           </TableRow>
@@ -232,7 +219,6 @@ class ReadMultiplayer extends React.Component {
                       <ReadSinglePlayer singlePlayer={item.singlePlayer}/>
                       <ReadMultiplayer multiplayer={item.multiplayer}/>
                     </TableCell>
-
                     <TableCell>{item.platform}</TableCell>
                     <TableCell>{item.release}</TableCell>
                     <TableCell>
@@ -255,58 +241,6 @@ class ReadMultiplayer extends React.Component {
         </TableBody>
         </Table>
       </TableContainer>
-
-      {/* Form */}
-      <h1>Games Form</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label style={{float: "left"}}>
-            Nama:
-          </label>
-          <input style={{float: "right"}} type="text" name="name" value={input.name} onChange={handleChange}/>
-          <br/>
-          <br/>
-        </div>
-   
-        <div style={{marginTop: "20px"}}>
-          <label style={{float: "left"}}>
-            Genre:
-          </label>
-          <input style={{float: "right"}} type="text" name="genre" value={input.genre} onChange={handleChange}/>
-          <br/>
-          <br/>
-        </div>
-
-        <div style={{marginTop: "20px"}}>
-          <label style={{float: "left"}}>
-            Platform:
-          </label>
-          <input style={{float: "right"}} type="text" name="platform" value={input.platform} onChange={handleChange}/>
-          <br/>
-          <br/>
-        </div>
-
-        <div style={{marginTop: "20px"}}>
-          <label style={{float: "left"}}>
-            Relase:
-          </label>
-          <input style={{float: "right"}} type="text" name="release" value={input.release} onChange={handleChange}/>
-          <br/>
-          <br/>
-        </div>
-
-        <div style={{marginTop: "20px"}}>
-          <label style={{float: "left"}}>
-            image Url:
-          </label>
-          <input style={{float: "right"}} type="text" name="image_url" value={input.image_url} onChange={handleChange}/>
-          <br/>
-          <br/>
-        </div>
-
-    
-        <button>submit</button>
-      </form>
     </>
   )
 }

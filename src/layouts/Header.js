@@ -1,11 +1,8 @@
 import React, { useContext } from "react"
-import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
 import {AppBar, Toolbar, Tabs,Tab} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-
-
 
 const Headers =() =>{
   const [user, setUser] = useContext(LoginContext)
@@ -27,7 +24,7 @@ const Headers =() =>{
               { user && <Tab label="Movie List Editor" to='/movies' component={Link} />}
               { user && <Tab label="Game List Editor" to='/games' component={Link} />}
               { user === null && <Tab label="Login" to='/login' component={Link} />}
-              { user && <Tab label="Logout" onClick={handleLogout} />}
+              { user && <Tab label="Logout" component={Link} onClick={handleLogout} />}
             </Tabs>
             </Toolbar>
       </AppBar>

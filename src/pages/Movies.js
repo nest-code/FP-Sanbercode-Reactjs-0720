@@ -8,7 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import {Card, CardActionArea,CardMedia} from '@material-ui/core';
-import MaterialTable from '@material-ui/core/Table';
 
 const Movies = () => {
   
@@ -20,6 +19,7 @@ const Movies = () => {
     duration: 120,
     genre: "",
     rating: 0,
+    review: "",
     image_url: ""
   })
   const [selectedId, setSelectedId]  =  useState(0)
@@ -37,6 +37,7 @@ const Movies = () => {
             duration: el.duration,
             genre: el.genre,
             rating: el.rating,
+            review: el.review,
             image_url: el.image_url
 
           }
@@ -80,6 +81,12 @@ const Movies = () => {
             break
         }
 
+        case "review":
+          {
+            setInput({...input, review: event.target.value});
+              break
+          }
+
         case "image_url":
           {
             setInput({...input, image_url: event.target.value});
@@ -105,6 +112,7 @@ const Movies = () => {
           duration: input.duration,
           genre: input.genre,
           rating: parseInt(input.rating),
+          review: parseInt(input.review),
           image_url: input.image_url
 
         })
@@ -119,6 +127,7 @@ const Movies = () => {
           duration: input.duration,
           genre: input.genre,
           rating: parseInt(input.rating),
+          review: parseInt(input.review),
           image_url: input.image_url
         })
         .then(res => {
@@ -129,6 +138,7 @@ const Movies = () => {
             singleMovie.duration = input.duration
             singleMovie.genre = input.genre
             singleMovie.rating = input.rating
+            singleMovie.review = input.review
             singleMovie.image_url = input.image_url
 
             setMovies([...movies])
@@ -144,6 +154,7 @@ const Movies = () => {
         duration: 120,
         genre: "",
         rating: 0,
+        review: "",
         image_url: ""
       })
     }
@@ -171,6 +182,7 @@ const Movies = () => {
         duration: singleMovie.duration,
         genre: singleMovie.genre,
         rating: singleMovie.rating,
+        review: singleMovie.review,
         image_url: singleMovie.image_url
       })
       setSelectedId(itemId)
@@ -185,76 +197,12 @@ const Movies = () => {
     )
   }
 
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
-    ],
-    data: [
-      { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-      {
-        name: 'Zerya Betül',
-        surname: 'Baran',
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
-  });
-
+  
 
 
   return(
     <>
-      <h1>Daftar Movie</h1> 
-
-      <MaterialTable
-      title="Editable Example"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-      }}
-    />
+      <h1>Movie List Editor</h1> 
        <table style={{width: "100%"}} >
       <TableContainer>
         <Table>
@@ -267,6 +215,7 @@ const Movies = () => {
             <TableCell>Duration</TableCell>
             <TableCell>Genre</TableCell>
             <TableCell>Rating</TableCell>
+            <TableCell>Review</TableCell>
             <TableCell>Image</TableCell>
             <TableCell>Action</TableCell>
           </TableRow>
@@ -285,6 +234,8 @@ const Movies = () => {
                     <TableCell>{item.duration}</TableCell>
                     <TableCell>{item.genre}</TableCell>
                     <TableCell>{item.rating}</TableCell>
+                    <TableCell>{item.review}</TableCell>
+
                     <TableCell>
                       <Card >
                         <CardActionArea>
@@ -305,74 +256,8 @@ const Movies = () => {
         </Table>
       </TableContainer>
       </table>
-
-
-      {/* Form */}
-      <h1>Movies Form</h1>
-      <form onSubmit={handleSubmit}>
-            <table style={{width: "100%"}} >
-              <tr>
-                <td>  Title:</td>
-                <td>
-                     <input  type="text" name="title" value={input.title} onChange={handleChange}/>
-                </td>
-              </tr>
-
-              <tr>
-                <td> Description:</td>
-                <td>
-                    <textarea  type="text" name="description" value={input.description} onChange={handleChange}/>
-                </td>
-              </tr>
-
-              <tr>
-                <td>Year:</td>
-                <td> 
-                     <input  type="number" max={2020} min={1980}  name="year" value={input.year} onChange={handleChange}/>
-                </td>
-              </tr>
-
-              <tr>
-                <td>Duration:</td>
-                <td> <input  type="number" name="duration" value={input.duration} onChange={handleChange}/></td>
-              </tr>
-
-              <tr>
-                <td>Genre:</td>
-                <td>
-                     <input  type="text" name="genre" value={input.genre} onChange={handleChange}/>
-                </td>
-              </tr>
-
-                <tr>
-                  <td>Rating:</td>
-                  <td>
-                  <input  type="number" max={10} min={0} name="rating" value={input.rating} onChange={handleChange}/>
-
-                  </td>
-              </tr>
-
-              <tr>
-                  <td>image_url::</td>
-                  <td>
-                  <input  type="text" name="image_url" value={input.image_url} onChange={handleChange}/>
-
-                  </td>
-              </tr>
-
-              <tr>
-                   <td colSpan="2" align="center">
-                  <button>Submit</button>
-                  </td>
-              </tr>
-            </table>
-      </form>
     </>
   )
-
-
-
-
 }
 
 export default Movies

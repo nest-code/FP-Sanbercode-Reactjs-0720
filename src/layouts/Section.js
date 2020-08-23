@@ -26,20 +26,16 @@ const PrivateRoute = ({user, ...props }) => {
 
   return(    
       <Switch>
-        <Container maxWidth="lg" component="div" style={{ backgroundColor: '#fff',   margin:'18px auto 15px auto', padding: '25px'}} >
-          <Route exact path="/" user={login} component={Home}/>
-          <Route exact path="/home" user={login} component={Home}/>
-          <Route exact path="/users"  user={login} component={Users}/>
-          <Route exact path="/home2" user={login} component={Home2}/>
-          <Route exact path="/login" user={login} component={Login}/>
-          <PrivateRoute exact path="/login" user={login} component={Login}/>
-          <PrivateRoute exact path="/users" user={login} component={Movies}/>
-          <PrivateRoute exact path="/movies" user={login} component={Movies}/>
-          <PrivateRoute exact path="/games" user={login} component={Games}/>
-          <Route path='/404' component={NotFound404} />
-
-          
-      </Container>
+          <Container maxWidth="lg" component="div" style={{ backgroundColor: '#fff',   margin:'18px auto 15px auto', padding: '25px'}} >
+            <Route exact path="/" user={login} component={Home}/>
+            <Route exact path="/home" user={login} component={Home}/>
+            <Route exact path="/home2" user={login} component={Home2}/>
+            <Route exact path="/login" user={login} component={Login}/>
+            <Route exact path="/users"  user={login} component={Users}/>
+            <PrivateRoute exact path="/movies" user={login} component={Movies}/>
+            <PrivateRoute exact path="/games" user={login} component={Games}/>
+            <Route path='/404' component={NotFound404} />
+          </Container>
       </Switch>
   )
 }

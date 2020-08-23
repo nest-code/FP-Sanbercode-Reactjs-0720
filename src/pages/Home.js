@@ -1,149 +1,71 @@
-import React, {Component} from "react"
-import axios from "axios"
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import {Card, CardActionArea,CardMedia,CardContent,CardActions} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Container, TextField } from '@material-ui/core';
+import MovieItem from './MovieItem';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import axios from 'axios';
 
-import Modal from '@material-ui/core/Modal';
+const Home = () => {
+    const [movies, setMovies] = useState([])
+    const [moviesDummy, setMoviesDummy] = useState([])
+    const [search, setSearch] = useState("")
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: 300,
-    flexGrow: 1,
-    minWidth: 300,
-    transform: 'translateZ(0)',
-    // The position fixed scoping doesn't work in IE 11.
-    // Disable this demo to preserve the others.
-    '@media all and (-ms-high-contrast: none)': {
-      display: 'none',
-    },
-  },
-  modal: {
-    display: 'flex',
-    padding: theme.spacing(1),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+    useEffect(() => {
+        axios.get(` https://backendexample.sanbersy.com/api/movies `)
+            .then(res => {
+                setMovies(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+                setMoviesDummy(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+            })
+    }, [])
 
-  const handleShow = (event) =>{
-      alert("Get Review")
+    const sorting = (a, b, key, order) => {
+      
     }
-    
 
-class Home extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      movies: []
+    useEffect(() => {
+        axios.get(` https://backendexample.sanbersy.com/api/movies `)
+            .then(res => {
+                setMovies(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+                setMoviesDummy(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+            })
+    }, [])
+
+    useEffect(() => {
+        if (search.length === 0) {
+            setMoviesDummy(movies)
+        } else {
+            setMoviesDummy(movies.filter(el => {
+                if (el.title.toUpperCase().indexOf(search) > -1) {
+                    return el
+                }
+            }))
+        }
+    }, [search])
+
+    const handleChange = (e) => {
+        setSearch(e.target.value.toUpperCase())
     }
-  }
 
-  componentDidMount(){
-    axios.get(`https://www.backendexample.sanbersy.com/api/movies`)
-    .then(res => {
-      let movies = res.data.map(el=>{ return {
-        id: el.id, 
-        title: el.title,
-        description: el.description,
-        year: el.year, 
-        rating: el.rating,
-        duration: el.duration,
-        genre: el.genre,
-        image_url: el.image_url
-
-      }})
-      this.setState({movies})
-    })
-  }
-
-
-  
-  render(){
     return (
-      <>
-      <div class="nav-link">
-        <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
-            <Link color="inherit" href="/">
-            Movies
-            </Link>
-          
-            <Link
-              color="textPrimary"
-              href="/components/breadcrumbs/"
-              aria-current="page"
-            >
-            List Movie
-            </Link>
-          </Breadcrumbs>
-        </div>
-    
-
-    
-      <Container>
-     
-
-      <div className={useStyles.root}>
-      <Grid container spacing={3}>
-      {
-            this.state.movies.map((item)=>{
-              return(
-        <Grid item xs={3}>
-          <Card className={useStyles.root}>
-            <CardActionArea>
-              <CardMedia maxWidth="lg" component="div" style={{ backgroundColor: '#fff'}} />
-            
-              <CardMedia
-                style={{height: 0, paddingTop: '96.25%'}}
-                image= {item.image_url}
-                title="lorem ipsum"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h6">
-                  {item.title}
-                </Typography>
-                <Typography variant="body2">
-                 Genre : {item.genre} ||  Duration : {item.duration}
-                </Typography>
-
-                <Typography variant="body2">
-                  Rating : {item.rating} ||    Year : {item.year}
-                </Typography>
-
-              </CardContent>
-            </CardActionArea>
-
-            <CardActions>
-              <Button size="small" color="primary" onClick={handleShow} >
-                Review
-              </Button>
-              
-            </CardActions>
-          </Card>
-        </Grid>
-      )
-      })
-      }
-      </Grid>
-    </div>
- 
-
-      </Container>
-      </>
+        <>
+            <h1> Movies </h1>
+            <div class="nav-link">
+              <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
+                <Link color="inherit" href="/">Movie</Link>
+                <Link color="textPrimary" href="" aria-current="page" >List Movie</Link>
+              </Breadcrumbs>
+            </div>
+            <Container>
+                    <TextField type="text" size="small" variant="outlined" value={search} onChange={handleChange} label="Search" style={{ width: "100%", margin:"20px auto 20px"}} />
+  
+                {moviesDummy.map(el => {
+                    return (
+                        <MovieItem movie={el} />
+                    )
+                })}
+            </Container>
+        </>
     )
-  }
 }
 
 export default Home
