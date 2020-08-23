@@ -9,29 +9,39 @@ import {Card, CardActionArea,CardMedia,CardContent,CardActions} from '@material-
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 
+import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    height: 300,
     flexGrow: 1,
+    minWidth: 300,
+    transform: 'translateZ(0)',
+    // The position fixed scoping doesn't work in IE 11.
+    // Disable this demo to preserve the others.
+    '@media all and (-ms-high-contrast: none)': {
+      display: 'none',
+    },
+  },
+  modal: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },media: {
-    height: 140,
-  },Container: {
-    margin : 20
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
-  
 }));
-
 
   const handleShow = (event) =>{
       alert("Get Review")
     }
     
-
 
 class Home extends Component {
   constructor(props){
@@ -59,26 +69,25 @@ class Home extends Component {
     })
   }
 
+
+  
   render(){
     return (
       <>
-
-
       <div class="nav-link">
-      <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
-          <Link color="inherit" href="/">
-           Movies
-          </Link>
-         
-          <Link
-            color="textPrimary"
-            href="/components/breadcrumbs/"
-            
-            aria-current="page"
-          >
-           List Movie
-          </Link>
-        </Breadcrumbs>
+        <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
+            <Link color="inherit" href="/">
+            Movies
+            </Link>
+          
+            <Link
+              color="textPrimary"
+              href="/components/breadcrumbs/"
+              aria-current="page"
+            >
+            List Movie
+            </Link>
+          </Breadcrumbs>
         </div>
     
 

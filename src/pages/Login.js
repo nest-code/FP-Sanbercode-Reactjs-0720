@@ -1,72 +1,53 @@
 import React, { useContext, useState } from "react"
-import {UserContext} from "../context/UserContext"
-import { Link } from "react-router-dom";
+import { Container, TextField, Button, Typography } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import {LoginContext} from "../context/LoginContext"
 
+const Login = props => {
+    const [setLogin, setUserInfo] = [useContext(LoginContext)[1], useContext(LoginContext)[3]]
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [output, setOutput] = useState()
+    const history = useHistory()
 
+const handleChange = (x, event) => {
+    x(event.target.value.trim())
+}
 
-const Login = () =>{
-  const [, setUser] = useContext(UserContext)
-  const [input, setInput] = useState({username: "" , password: ""})
-
-  const handleSubmit = (event) =>{
+const handleLogin = (event) => {
     event.preventDefault()
-    if (input.username === "admin" && input.password === "admin"){
-      setUser({username: input.username})
-      localStorage.setItem("user", JSON.stringify({username: "admin", password: "admin"}))
-      alert("Berhasil Login")
-    }else{
-      alert("username dan password gagal")
-    }
-  }
-
-
-
-  
-  const handleChange = (event) =>{
-    let value = event.target.value
-    let name = event.target.name
-    switch (name){
-      case "username":{
-        setInput({...input, username: value})
-        break;
-      }
-      case "password":{
-        setInput({...input, password: value})
-        break;
-      }
-      default:{break;}
-    }
-  }
-
+    setOutput()
+    axios.post(' https://backendexample.sanbersy.com/api/login ', { username: username, password: password })
+        .then(res => {
+            if (username === res.data.username && password === res.data.password) {
+                localStorage.setItem('login', true)
+                setLogin(true)
+                localStorage.setItem('userInfo', JSON.stringify(res.data))
+                setUserInfo(res.data)
+                setUsername("")
+                setPassword("")
+                console.log(res)
+            } else {
+                setOutput(<Typography variant="caption" color="secondary" style={{ width: "300px" }}> <br /> Username or password is incorrect! <br /> </Typography>)
+            }
+        })
+}
 
 
   return(
     <>
-
- <div class="login">
-<form onSubmit={handleSubmit}>
-
-<label>Username: </label>
-<input type="text" name="username" onChange={handleChange} value={input.username}/>
-<br/>
-
-<label>Password: </label>
-<input type="password" name="password" onChange={handleChange} value={input.password}/>
-<br/>
-<button class="btn">Login</button>
-<br/>
-<br/>
-<a href="https://www.w3schools.com">Lupa Akun ?</a> <br/>
-<Link to="/users">Daftar Sekarang</Link>
-
-</form>
-
-    </div>
+        <div class="login">
+            <form autoComplete="off"  onSubmit={handleLogin}>
+                <TextField required label="Username" value={username} onChange={(e) => handleChange(setUsername, e)} autoFocus /> <br />
+                <TextField required label="Password" type="password" autoComplete="off" value={password} onChange={(e) => handleChange(setPassword, e)} />                     
+                <Button type="submit" variant="outlined"> Login </Button>
+                {output}
+                <Link to="/users">Don't have account, Register Now</Link>
+            </form>
+        </div>
     </>
   )
 }
-
-
-
 
 export default Login

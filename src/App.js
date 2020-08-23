@@ -1,14 +1,14 @@
 import React from 'react';
 import Main from './layouts/Main';
 import './App.css';
-import {UserProvider} from "./context/UserContext"
+import {LoginProvider} from "./context/LoginContext"
 
 function App() {
   return (
     <>
-      <UserProvider>
+      <LoginProvider>
         <Main />
-      </UserProvider>
+      </LoginProvider>
     </>
   );
 }

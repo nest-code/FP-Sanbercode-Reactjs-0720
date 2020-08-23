@@ -6,12 +6,9 @@ const Users = () => {
   const [input, setInput]  =  useState({
     username: "",
     password: ""
-
-
   })
 
   const [statusForm, setStatusForm]  =  useState("create")
-
   useEffect( () => {
     if (users === null){
       axios.get(`https://www.backendexample.sanbersy.com/api/users`)
@@ -27,7 +24,6 @@ const Users = () => {
     }
   }, [users])
   
-
 
   const handleChange = (event) =>{
     let typeOfInput = event.target.name
@@ -64,23 +60,14 @@ const Users = () => {
            setUsers([...users, {id: res.data.id, ...input}])
         })
       }
-      alert("Akun Berhasil Dibuat")
-      
-      setStatusForm("create")
-
-      setInput({
-        username: "",
-        password: ""
-      })
+       alert("Akun Berhasil Dibuat")
     }
-  
-
   }
   return(
     <>
 
     
- <div class="login">
+   <div class="login">
     <form onSubmit={handleSubmit}>
 
       <label>Username: </label>
@@ -91,7 +78,7 @@ const Users = () => {
       <input type="password" name="password" onChange={handleChange} />
       <br/>
       
-      <button class="btn">Login</button>
+      <button class="btn">Daftar</button>
       </form>
     </div>
     </>

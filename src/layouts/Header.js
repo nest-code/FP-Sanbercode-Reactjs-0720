@@ -1,16 +1,17 @@
 import React, { useContext } from "react"
+import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { LoginContext } from "../context/LoginContext";
 import {AppBar, Toolbar, Tabs,Tab} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
 
+
 const Headers =() =>{
-  const [user, setUser] = useContext(UserContext)
+  const [user, setUser] = useContext(LoginContext)
   const handleLogout = () =>{
     setUser(null)
     localStorage.removeItem("user")
-    alert("Berhasil Logout")
   }
 
   return(    
