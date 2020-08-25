@@ -1,5 +1,3 @@
-// ChangePassword.js
-
 import React, { useState, useContext } from 'react';
 import { Typography, TextField, Button } from '@material-ui/core';
 import { LoginContext } from './LoginContext';

@@ -1,5 +1,8 @@
-import React, {useState, useEffect} from "react"
-import axios from "axios"
+import React, { useState, useEffect } from 'react';
+import { Container, TextField } from '@material-ui/core';
+import MovieItem from './MovieEditorItem';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,201 +11,63 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import {Card, CardActionArea,CardMedia} from '@material-ui/core';
+import axios from 'axios';
 
-const Movies = () => {
-  
-  const [movies, setMovies] =  useState(null)
-  const [input, setInput]  =  useState({
-    title: "",
-    description: "",
-    year: 2020,
-    duration: 120,
-    genre: "",
-    rating: 0,
-    review: "",
-    image_url: ""
-  })
-  const [selectedId, setSelectedId]  =  useState(0)
-  const [statusForm, setStatusForm]  =  useState("create")
+const Home = () => {
+    const [movies, setMovies] = useState([])
+    const [moviesDummy, setMoviesDummy] = useState([])
+    const [search, setSearch] = useState("")
 
-  useEffect( () => {
-    if (movies === null){
-      axios.get(`https://www.backendexample.sanbersy.com/api/movies`)
-      .then(res => {
-          setMovies(res.data.map(el=>{ return {
-            id: el.id, 
-            title: el.title, 
-            description: el.description,
-            year: el.year,
-            duration: el.duration,
-            genre: el.genre,
-            rating: el.rating,
-            review: el.review,
-            image_url: el.image_url
+    useEffect(() => {
+        axios.get(` https://backendexample.sanbersy.com/api/movies `)
+            .then(res => {
+                setMovies(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+                setMoviesDummy(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+            })
+    }, [])
 
-          }
-        }))
-      })
-    }
-  }, [movies])
-  
-  const handleChange = (event) =>{
-    let typeOfInput = event.target.name
-
-    switch (typeOfInput){
-      case "title":
-      {
-        setInput({...input, title: event.target.value});
-        break
-      }
-      case "description":
-      {
-        setInput({...input, description: event.target.value});
-        break
-      }
-      case "year":
-      {
-        setInput({...input, year: event.target.value});
-          break
-      }
-      case "duration":
-      {
-        setInput({...input, duration: event.target.value});
-          break
-      }
-      case "genre":
-        {
-          setInput({...input, genre: event.target.value});
-            break
-        }
-      case "rating":
-        {
-          setInput({...input, rating: event.target.value});
-            break
-        }
-
-        case "review":
-          {
-            setInput({...input, review: event.target.value});
-              break
-          }
-
-        case "image_url":
-          {
-            setInput({...input, image_url: event.target.value});
-              break
-          }
-    default:
-      {break;}
-    }
-  }
-
-  const handleSubmit = (event) =>{
-    event.preventDefault()
-
-    let title = input.title
-    console.log(input)
-
-    if (title.replace(/\s/g,'') !== ""){      
-      if (statusForm === "create"){        
-        axios.post(`https://www.backendexample.sanbersy.com/api/movies`, {
-          title: input.title,
-          description: input.description,
-          year: input.year,
-          duration: input.duration,
-          genre: input.genre,
-          rating: parseInt(input.rating),
-          review: parseInt(input.review),
-          image_url: input.image_url
-
-        })
-        .then(res => {
-            setMovies([...movies, {id: res.data.id, ...input}])
-        })
-      }else if(statusForm === "edit"){
-        axios.put(`https://www.backendexample.sanbersy.com/api/movies/${selectedId}`, {
-          title: input.title,
-          description: input.description,
-          year: input.year,
-          duration: input.duration,
-          genre: input.genre,
-          rating: parseInt(input.rating),
-          review: parseInt(input.review),
-          image_url: input.image_url
-        })
-        .then(res => {
-            let singleMovie = movies.find(el=> el.id === selectedId)
-            singleMovie.title = input.title
-            singleMovie.description = input.description
-            singleMovie.year = input.year
-            singleMovie.duration = input.duration
-            singleMovie.genre = input.genre
-            singleMovie.rating = input.rating
-            singleMovie.review = input.review
-            singleMovie.image_url = input.image_url
-
-            setMovies([...movies])
-        })
-      }
-      
-      setStatusForm("create")
-      setSelectedId(0)
-      setInput({
-        title: "",
-        description: "",
-        year: 2020,
-        duration: 120,
-        genre: "",
-        rating: 0,
-        review: "",
-        image_url: ""
-      })
-    }
-
-  }
-
-  const Action = ({itemId}) =>{
-    const handleDelete = () => {  
-      let newMovies = movies.filter(el => el.id = itemId)
-      axios.delete(`https://www.backendexample.sanbersy.com/api/movies/${itemId}`)
-      .then(res => {
-        console.log(res)
-      })
-            
-      setMovies([...newMovies])
+    const sorting = (a, b, key, order) => {
       
     }
-    
-    const handleEdit = () =>{
-      let singleMovie = movies.find(x=> x.id === itemId)
-      setInput({
-        title: singleMovie.title,
-        description: singleMovie.description,
-        year: singleMovie.year,
-        duration: singleMovie.duration,
-        genre: singleMovie.genre,
-        rating: singleMovie.rating,
-        review: singleMovie.review,
-        image_url: singleMovie.image_url
-      })
-      setSelectedId(itemId)
-      setStatusForm("edit")
+
+    useEffect(() => {
+        axios.get(` https://backendexample.sanbersy.com/api/movies `)
+            .then(res => {
+                setMovies(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+                setMoviesDummy(res.data.sort((a, b) => sorting(a, b, "title", "asc")))
+            })
+    }, [])
+
+    useEffect(() => {
+        if (search.length === 0) {
+            setMoviesDummy(movies)
+        } else {
+            setMoviesDummy(movies.filter(el => {
+                if (el.title.toUpperCase().indexOf(search) > -1) {
+                    return el
+                }
+            }))
+        }
+    }, [search])
+
+    const handleChange = (e) => {
+        setSearch(e.target.value.toUpperCase())
     }
 
-    return(
-      <>
-      <Button  variant="contained" size="small" color="primary"  onClick={handleEdit}>Edit</Button>
-      <Button  variant="contained" size="small" color="secondary" onClick={handleDelete}>Delete</Button>
-      </>
-    )
-  }
+    return (
+        <>
 
+
+<h1>Movie List Editor</h1> 
+            <div class="nav-link">
+              <Breadcrumbs aria-label="breadcrumb"  container spacing={3}>
+                <Link color="inherit" href="/">Movie</Link>
+                <Link color="textPrimary" href="" aria-current="page" >Movie Editor</Link>
+              </Breadcrumbs>
+            </div>
+            <Container>
+                    <TextField type="text" size="small" variant="outlined" value={search} onChange={handleChange} label="Search" style={{ width: "100%", margin:"20px auto 20px"}} />
   
-
-
-  return(
-    <>
-      <h1>Movie List Editor</h1> 
        <table style={{width: "100%"}} >
       <TableContainer>
         <Table>
@@ -222,42 +87,19 @@ const Movies = () => {
         </TableHead>
 
         <TableBody>
-            {
-              movies !== null && movies.map((item, index)=>{
-                return(                    
-                  <TableRow key={index}>
-                    <TableCell>{index+1}</TableCell>
-                    <TableCell>{item.title}</TableCell>
-                    {/* <TableCell>{item.description}</TableCell> */}
-                    <TableCell>{item.year}</TableCell>
-                    <TableCell>{item.year}</TableCell>
-                    <TableCell>{item.duration}</TableCell>
-                    <TableCell>{item.genre}</TableCell>
-                    <TableCell>{item.rating}</TableCell>
-                    <TableCell>{item.review}</TableCell>
-
-                    <TableCell>
-                      <Card >
-                        <CardActionArea>
-                          <CardMedia style={{height: 0, paddingTop: '56.25%'}}
-                            image= {item.image_url}
-                          />
-                        </CardActionArea>
-                      </Card>
-                    </TableCell>
-                    <TableCell>
-                      <Action itemId={item.id} />
-                    </TableCell>
-                  </TableRow>
-                )
-              })
-            }
+          
+        {moviesDummy.map(el => {
+                    return (
+                        <MovieItem movie={el} />
+                    )
+                })}
         </TableBody>
         </Table>
       </TableContainer>
       </table>
-    </>
-  )
+      </Container>
+        </>
+    )
 }
 
-export default Movies
+export default Home
